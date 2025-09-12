@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import Header from "./Header";
-import WarningAlert from "./WarningAlert";
-import ExpenseSummary from "./ExpenseSummary";
-import ExpenseForm from "./ExpenseForm";
-import ExpenseList from "./ExpenseList";
+import Header from "./components/Header";
+import WarningAlert from "./components/WarningAlert";
+import ExpenseSummary from "./components/ExpenseSummary";
+import ExpenseForm from "./components/ExpenseForm";
+import ExpenseList from "./components/ExpenseList";
 
 export default function ExpenseTracker() {
   const [expenses, setExpenses] = useState([]);
