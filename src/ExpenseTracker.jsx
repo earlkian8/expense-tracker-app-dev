@@ -6,11 +6,7 @@ import ExpenseForm from "./components/ExpenseForm";
 import ExpenseList from "./components/ExpenseList";
 
 export default function ExpenseTracker() {
-  const [expenses, setExpenses] = useState([
-    { id: 1, name: "Groceries", amount: 120.5 },
-    { id: 2, name: "Gas", amount: 45.0 },
-    { id: 3, name: "Coffee", amount: 15.75 },
-  ]);
+  const [expenses, setExpenses] = useState([]);
 
   const [newExpenseName, setNewExpenseName] = useState("");
   const [newExpenseAmount, setNewExpenseAmount] = useState("");
