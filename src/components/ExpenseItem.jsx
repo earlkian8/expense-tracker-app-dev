@@ -14,7 +14,7 @@ export default function ExpenseItem({ expense, onDelete }) {
           </span>
           <button
             onClick={() => onDelete(expense.id)}
-            className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-2 rounded-md hover:bg-gray-100 text-gray-400 hover:text-red-500"
+            className="sm:opacity-0 group-hover:opacity-100 sm:transition-opacity duration-200 p-2 rounded-md hover:bg-gray-100 text-gray-400 hover:text-red-500"
           >
             <Trash2 size={18} />
           </button>
