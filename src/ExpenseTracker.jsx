@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import Header from "./components/Header";
-import WarningAlert from "./components/WarningAlert";
-import ExpenseSummary from "./components/ExpenseSummary";
-import ExpenseForm from "./components/ExpenseForm";
-import ExpenseList from "./components/ExpenseList";
+import Header from "./Header";
+import WarningAlert from "./WarningAlert";
+import ExpenseSummary from "./ExpenseSummary";
+import ExpenseForm from "./ExpenseForm";
+import ExpenseList from "./ExpenseList";
 
 export default function ExpenseTracker() {
   const [expenses, setExpenses] = useState([]);
@@ -13,7 +13,7 @@ export default function ExpenseTracker() {
   const [showWarning, setShowWarning] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
 
-  const EXPENSE_LIMIT = 500;
+  const EXPENSE_LIMIT = 5000;
   const totalExpenses = expenses.reduce(
     (total, expense) => total + expense.amount,
     0
@@ -59,8 +59,8 @@ export default function ExpenseTracker() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-3xl mx-auto space-y-8">
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
+      <div className="max-w-3xl mx-auto space-y-6 sm:space-y-8">
         <Header />
         {showWarning && (
           <WarningAlert total={totalExpenses} limit={EXPENSE_LIMIT} />
