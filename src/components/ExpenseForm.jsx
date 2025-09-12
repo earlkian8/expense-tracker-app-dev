@@ -21,7 +21,9 @@ export default function ExpenseForm({
           onKeyPress={handleKeyPress}
           className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-900 placeholder-gray-500 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all"
         />
-        <div className="flex gap-3">
+
+        {/* Responsive container */}
+        <div className="flex flex-col sm:flex-row gap-3">
           <input
             type="number"
             placeholder="Amount"
@@ -32,10 +34,11 @@ export default function ExpenseForm({
             onKeyPress={handleKeyPress}
             className="flex-1 px-4 py-3 border border-gray-300 rounded-md text-gray-900 placeholder-gray-500 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all"
           />
+
           <button
             onClick={addExpense}
             disabled={isAdding}
-            className="px-6 py-3 bg-black text-white rounded-md font-medium hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 justify-center min-w-[100px]"
+            className="px-6 py-3 bg-black text-white rounded-md font-medium hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 justify-center sm:min-w-[100px] w-full sm:w-auto"
           >
             {isAdding ? (
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
