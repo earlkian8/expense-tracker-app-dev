@@ -2,7 +2,7 @@ import { Trash2 } from "lucide-react";
 
 export default function ExpenseItem({ expense, onDelete }) {
   return (
-    <div className="group bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all duration-200 hover:border-gray-300">
+    <div className="group bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all duration-200 hover:border-gray-300 m-2">
       <div className="flex items-center justify-between">
         <div className="flex-1">
           <h3 className="font-medium text-gray-900 text-lg">{expense.name}</h3>
