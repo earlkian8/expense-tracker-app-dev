@@ -8,13 +8,15 @@ export default function ExpenseForm({
   setAmount,
   addExpense,
   isAdding,
-  handleKeyPress,
   budgetLimit,
   setBudgetLimit
 }) {
-  const [errors, setErrors] = useState({ name: false, amount: false });
-  const [showBudgetForm, setShowBudgetForm] = useState(false);
 
+  // Error state
+  const [errors, setErrors] = useState({ name: false, amount: false });
+  // const [showBudgetForm, setShowBudgetForm] = useState(false);
+
+  // Validate function
   const validateAndAdd = () => {
     const newErrors = {
       name: !name.trim(),
@@ -29,6 +31,7 @@ export default function ExpenseForm({
     }
   };
 
+  // name change
   const handleNameChange = (e) => {
     setName(e.target.value);
     if (errors.name && e.target.value.trim()) {
@@ -36,6 +39,7 @@ export default function ExpenseForm({
     }
   };
 
+  // amount change
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
     if (errors.amount && e.target.value && parseFloat(e.target.value) > 0) {
@@ -43,12 +47,14 @@ export default function ExpenseForm({
     }
   };
 
+  // enter
   const handleKeyPressWithValidation = (e) => {
     if (e.key === 'Enter') {
       validateAndAdd();
     }
   };
 
+  // limit change
   const handleLimitChange = (e) => {
     const value = e.target.value;
     if (!isNaN(value) && value > 0) {
@@ -117,22 +123,25 @@ export default function ExpenseForm({
           </div>
         </div>
 
-        <div className="flex justify-end mt-6">
-          <button
-            onClick={validateAndAdd}
-            disabled={isAdding}
-            className="px-8 py-3 bg-black text-white rounded-lg font-semibold hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-3 min-w-[140px] justify-center"
-          >
-            {isAdding ? (
-              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-            ) : (
-              <>
-                <Plus size={20} />
-                Add Expense
-              </>
-            )}
-          </button>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+          <div className="md:col-span-3">
+            <button
+              onClick={validateAndAdd}
+              disabled={isAdding}
+              className="w-full px-8 py-3 bg-black text-white rounded-lg font-semibold hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-3 justify-center"
+            >
+              {isAdding ? (
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              ) : (
+                <>
+                  <Plus size={20} />
+                  Add Expense
+                </>
+              )}
+            </button>
+          </div>
         </div>
+
       </div>
 
       {/* Budget Settings */}

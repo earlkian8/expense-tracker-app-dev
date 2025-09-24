@@ -88,19 +88,6 @@ export default function ExpenseTracker() {
     setExpenses(expenses.filter((expense) => expense.id !== id));
   };
 
-  // enter key for adding
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") addExpense();
-  };
-
-  // Handle changing the user-defined limit
-  const handleLimitChange = (e) => {
-    const value = e.target.value;
-    if (!isNaN(value) && value > 0) {
-      setBudgetLimit(Number(value));
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -123,7 +110,6 @@ export default function ExpenseTracker() {
           setAmount={setNewExpenseAmount}
           addExpense={addExpense}
           isAdding={isAdding}
-          handleKeyPress={handleKeyPress}
           budgetLimit={budgetLimit}
           setBudgetLimit={setBudgetLimit}
         />

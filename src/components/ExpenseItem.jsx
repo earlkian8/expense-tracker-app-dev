@@ -70,7 +70,9 @@ export default function ExpenseItem({ expense, onDelete, onUpdate }) {
             </div>
           </div>
           
-          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="flex items-center gap-2 
+            md:opacity-0 md:group-hover:opacity-100 
+            transition-opacity duration-200">
             <button
               onClick={() => setIsEditing(true)}
               className="p-2 rounded-lg hover:bg-blue-100 text-gray-400 hover:text-blue-600 transition-colors"
@@ -86,6 +88,7 @@ export default function ExpenseItem({ expense, onDelete, onUpdate }) {
               <Trash2 size={16} />
             </button>
           </div>
+
         </div>
       </div>
     </div>
