@@ -6,8 +6,13 @@ import ExpenseForm from "./components/ExpenseForm";
 import ExpenseList from "./components/ExpenseList";
 
 export default function ExpenseTracker() {
-  const [expenses, setExpenses] = useState([]);
 
+  // Expense Array
+  const [expenses, setExpenses] = useState(() => {
+    const storedExpenses = localStorage.getItem("expenses");
+    return storedExpenses ? JSON.parse(storedExpenses) : [];
+  });
+  
   const [newExpenseName, setNewExpenseName] = useState("");
   const [newExpenseAmount, setNewExpenseAmount] = useState("");
   const [showWarning, setShowWarning] = useState(false);
@@ -28,6 +33,17 @@ export default function ExpenseTracker() {
       setShowWarning(false);
     }
   }, [totalExpenses]);
+
+  // useEffect(() => {
+  //   const storedExpenses = localStorage.getItem("expenses");
+  //   if (storedExpenses) {
+  //     setExpenses(JSON.parse(storedExpenses));
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+  }, [expenses]);
 
   const addExpense = () => {
     if (
@@ -50,6 +66,7 @@ export default function ExpenseTracker() {
     }
   };
 
+
   const updateExpense = (id, newName) => {
     setExpenses(
       expenses.map((expense) =>
@@ -66,6 +83,43 @@ export default function ExpenseTracker() {
   const handleKeyPress = (e) => {
     if (e.key === "Enter") addExpense();
   };
+
+  // const addExpense = () => {
+  //   if (
+  //     newExpenseName.trim() &&
+  //     newExpenseAmount &&
+  //     parseFloat(newExpenseAmount) > 0
+  //   ) {
+  //     setIsAdding(true);
+  //     setTimeout(() => {
+  //       const newExpense = {
+  //         id: Date.now(),
+  //         name: newExpenseName.trim(),
+  //         amount: parseFloat(newExpenseAmount),
+  //       };
+  //       const updatedExpenses = [...expenses, newExpense];
+  //       setExpenses(updatedExpenses);
+  //       localStorage.setItem("expenses", JSON.stringify(updatedExpenses));
+  //       setNewExpenseName("");
+  //       setNewExpenseAmount("");
+  //       setIsAdding(false);
+  //     }, 300);
+  //   }
+  // };
+
+  // const updateExpense = (id, newName) => {
+  //   const updatedExpenses = expenses.map((expense) =>
+  //     expense.id === id ? { ...expense, name: newName } : expense
+  //   );
+  //   setExpenses(updatedExpenses);
+  //   localStorage.setItem("expenses", JSON.stringify(updatedExpenses));
+  // };
+  
+  // const deleteExpense = (id) => {
+  //   const updatedExpenses = expenses.filter((expense) => expense.id !== id);
+  //   setExpenses(updatedExpenses);
+  //   localStorage.setItem("expenses", JSON.stringify(updatedExpenses));
+  // };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
