@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus, Calculator } from "lucide-react";
 import { useState } from "react";
 
 export default function ExpenseForm({
@@ -9,8 +9,11 @@ export default function ExpenseForm({
   addExpense,
   isAdding,
   handleKeyPress,
+  budgetLimit,
+  setBudgetLimit
 }) {
   const [errors, setErrors] = useState({ name: false, amount: false });
+  const [showBudgetForm, setShowBudgetForm] = useState(false);
 
   const validateAndAdd = () => {
     const newErrors = {
@@ -20,15 +23,12 @@ export default function ExpenseForm({
     
     setErrors(newErrors);
     
-    // If no errors, proceed with adding expense
     if (!newErrors.name && !newErrors.amount) {
       addExpense();
-      // Clear errors after successful add
       setErrors({ name: false, amount: false });
     }
   };
 
-  // Clear error when user starts typing
   const handleNameChange = (e) => {
     setName(e.target.value);
     if (errors.name && e.target.value.trim()) {
@@ -49,68 +49,134 @@ export default function ExpenseForm({
     }
   };
 
+  const handleLimitChange = (e) => {
+    const value = e.target.value;
+    if (!isNaN(value) && value > 0) {
+      setBudgetLimit(Number(value));
+    }
+  };
+
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-      <h3 className="text-lg font-medium text-gray-900 mb-4">Add Expense</h3>
-      <div className="space-y-4">
-        <div>
-          <input
-            type="text"
-            placeholder="Expense name"
-            value={name}
-            onChange={handleNameChange}
-            onKeyPress={handleKeyPressWithValidation}
-            className={`w-full px-4 py-3 border rounded-md text-gray-900 placeholder-gray-500 focus:outline-none transition-all ${
-              errors.name
-                ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-                : 'border-gray-300 focus:border-black focus:ring-1 focus:ring-black'
-            }`}
-          />
-          {errors.name && (
-            <p className="mt-1 text-sm text-red-600">This field is required</p>
-          )}
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      {/* Add Expense Form */}
+      <div className="lg:col-span-2 bg-white border border-gray-200 rounded-xl p-8 shadow-sm">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-2 bg-black/5 rounded-lg">
+            <Plus className="w-6 h-6 text-black" />
+          </div>
+          <h3 className="text-xl font-bold text-gray-900">Add New Expense</h3>
         </div>
 
-        {/* Responsive container */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:items-start">
-          <div className="flex-1">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Expense Description
+            </label>
             <input
-              type="number"
-              placeholder="Amount"
-              step="0.01"
-              min="0"
-              value={amount}
-              onChange={handleAmountChange}
+              type="text"
+              placeholder="e.g., Grocery shopping, Gas bill, Coffee"
+              value={name}
+              onChange={handleNameChange}
               onKeyPress={handleKeyPressWithValidation}
-              className={`w-full px-4 py-3 border rounded-md text-gray-900 placeholder-gray-500 focus:outline-none transition-all ${
-                errors.amount
-                  ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-                  : 'border-gray-300 focus:border-black focus:ring-1 focus:ring-black'
+              className={`w-full px-4 py-3 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none transition-all ${
+                errors.name
+                  ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100'
+                  : 'border-gray-300 focus:border-black focus:ring-2 focus:ring-gray-100'
               }`}
             />
-            <div className="h-6 mt-1">
+            {errors.name && (
+              <p className="mt-2 text-sm text-red-600 font-medium">Description is required</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Amount (₱)
+            </label>
+            <div className="relative">
+              <input
+                type="number"
+                placeholder="0.00"
+                step="0.01"
+                min="0"
+                value={amount}
+                onChange={handleAmountChange}
+                onKeyPress={handleKeyPressWithValidation}
+                className={`w-full px-4 py-3 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none transition-all ${
+                  errors.amount
+                    ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100'
+                    : 'border-gray-300 focus:border-black focus:ring-2 focus:ring-gray-100'
+                }`}
+              />
               {errors.amount && (
-                <p className="text-sm text-red-600">
-                  {!amount ? 'This field is required' : 'Amount must be greater than 0'}
+                <p className="mt-2 text-sm text-red-600 font-medium">
+                  {!amount ? 'Amount is required' : 'Amount must be greater than 0'}
                 </p>
               )}
             </div>
           </div>
+        </div>
 
+        <div className="flex justify-end mt-6">
           <button
             onClick={validateAndAdd}
             disabled={isAdding}
-            className="px-6 py-3 bg-black text-white rounded-md font-medium hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 justify-center sm:min-w-[100px] w-full sm:w-auto flex-shrink-0"
+            className="px-8 py-3 bg-black text-white rounded-lg font-semibold hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-3 min-w-[140px] justify-center"
           >
             {isAdding ? (
-              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
             ) : (
               <>
-                <Plus size={18} />
-                Add
+                <Plus size={20} />
+                Add Expense
               </>
             )}
           </button>
+        </div>
+      </div>
+
+      {/* Budget Settings */}
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <div className="p-2 bg-purple-50 rounded-lg">
+              <Calculator className="w-5 h-5 text-purple-600" />
+            </div>
+            <h4 className="font-bold text-gray-900">Budget Settings</h4>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Monthly Budget Limit
+            </label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">
+                ₱
+              </span>
+              <input
+                type="number"
+                value={budgetLimit}
+                onChange={handleLimitChange}
+                className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring-2 focus:ring-gray-100 transition-all"
+                placeholder="10000"
+              />
+            </div>
+            <p className="text-xs text-gray-500 mt-2">
+              Set your monthly spending limit to track budget usage
+            </p>
+          </div>
+
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="text-xs font-medium text-gray-600 uppercase tracking-wider mb-2">
+              Current Settings
+            </div>
+            <div className="text-lg font-bold text-gray-900">
+              ₱{budgetLimit.toLocaleString('en-PH', { minimumFractionDigits: 2 })}
+            </div>
+            <div className="text-sm text-gray-600">monthly limit</div>
+          </div>
         </div>
       </div>
     </div>

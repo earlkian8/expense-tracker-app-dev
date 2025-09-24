@@ -19,8 +19,11 @@ export default function ExpenseTracker() {
   const [showWarning, setShowWarning] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
 
-  // 5000 limit
-  const EXPENSE_LIMIT = 5000;
+  // User-defined budget limit
+  const [budgetLimit, setBudgetLimit] = useState(() => {
+    const storedLimit = localStorage.getItem("budgetLimit");
+    return storedLimit ? Number(storedLimit) : 10000;
+  });
 
   // Store the total expense using reduce
   const totalExpenses = expenses.reduce(
@@ -30,19 +33,24 @@ export default function ExpenseTracker() {
 
   // Determine whether the total expenses is greater than expense limit
   useEffect(() => {
-    if (totalExpenses > EXPENSE_LIMIT) {
+    if (totalExpenses > budgetLimit) {
       setShowWarning(true);
-      const timer = setTimeout(() => setShowWarning(false), 5000);
+      const timer = setTimeout(() => setShowWarning(false), 8000);
       return () => clearTimeout(timer);
     } else {
       setShowWarning(false);
     }
-  }, [totalExpenses]);
+  }, [totalExpenses, budgetLimit]);
 
-  // run if there's a change in expense object
+  // Save expenses to localStorage
   useEffect(() => {
     localStorage.setItem("expenses", JSON.stringify(expenses));
   }, [expenses]);
+
+  // Save budget limit to localStorage
+  useEffect(() => {
+    localStorage.setItem("budgetLimit", budgetLimit.toString());
+  }, [budgetLimit]);
 
   // add
   const addExpense = () => {
@@ -85,18 +93,29 @@ export default function ExpenseTracker() {
     if (e.key === "Enter") addExpense();
   };
 
+  // Handle changing the user-defined limit
+  const handleLimitChange = (e) => {
+    const value = e.target.value;
+    if (!isNaN(value) && value > 0) {
+      setBudgetLimit(Number(value));
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
-      <div className="max-w-3xl mx-auto space-y-6 sm:space-y-8">
-        <Header />
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      
+      <main className="max-w-7xl mx-auto px-6 py-8">
         {showWarning && (
-          <WarningAlert total={totalExpenses} limit={EXPENSE_LIMIT} />
+          <WarningAlert total={totalExpenses} limit={budgetLimit} />
         )}
+        
         <ExpenseSummary
           expenses={expenses}
           total={totalExpenses}
-          limit={EXPENSE_LIMIT}
+          limit={budgetLimit}
         />
+        
         <ExpenseForm
           name={newExpenseName}
           setName={setNewExpenseName}
@@ -105,9 +124,16 @@ export default function ExpenseTracker() {
           addExpense={addExpense}
           isAdding={isAdding}
           handleKeyPress={handleKeyPress}
+          budgetLimit={budgetLimit}
+          setBudgetLimit={setBudgetLimit}
         />
-        <ExpenseList expenses={expenses} onDelete={deleteExpense} onUpdate={updateExpense} />
-      </div>
+        
+        <ExpenseList 
+          expenses={expenses} 
+          onDelete={deleteExpense} 
+          onUpdate={updateExpense} 
+        />
+      </main>
     </div>
   );
 }

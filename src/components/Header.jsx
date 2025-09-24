@@ -1,13 +1,25 @@
-import { PhilippinePeso } from "lucide-react";
+import { PhilippinePeso, } from "lucide-react";
 
 export default function Header() {
   return (
-    <div className="text-center">
-      <div className="inline-flex items-center justify-center w-12 h-12 bg-black rounded-full mb-4">
-        <PhilippinePeso className="w-6 h-6 text-white" />
+    <header className="bg-white border-b border-gray-200 shadow-sm mb-8">
+      <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center justify-center w-14 h-14 bg-black rounded-xl shadow-lg">
+              <PhilippinePeso className="w-7 h-7 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+                Expense Tracker
+              </h1>
+              <p className="text-gray-600 mt-1">
+                Smart financial management dashboard
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Expense Tracker</h1>
-      <p className="text-gray-600">Simple expense management</p>
-    </div>
+    </header>
   );
 }
