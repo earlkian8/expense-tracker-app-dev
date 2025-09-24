@@ -12,18 +12,23 @@ export default function ExpenseTracker() {
     const storedExpenses = localStorage.getItem("expenses");
     return storedExpenses ? JSON.parse(storedExpenses) : [];
   });
-  
+
+  // States
   const [newExpenseName, setNewExpenseName] = useState("");
   const [newExpenseAmount, setNewExpenseAmount] = useState("");
   const [showWarning, setShowWarning] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
 
+  // 5000 limit
   const EXPENSE_LIMIT = 5000;
+
+  // Store the total expense using reduce
   const totalExpenses = expenses.reduce(
     (total, expense) => total + expense.amount,
     0
   );
 
+  // Determine whether the total expenses is greater than expense limit
   useEffect(() => {
     if (totalExpenses > EXPENSE_LIMIT) {
       setShowWarning(true);
@@ -34,17 +39,12 @@ export default function ExpenseTracker() {
     }
   }, [totalExpenses]);
 
-  // useEffect(() => {
-  //   const storedExpenses = localStorage.getItem("expenses");
-  //   if (storedExpenses) {
-  //     setExpenses(JSON.parse(storedExpenses));
-  //   }
-  // }, []);
-
+  // run if there's a change in expense object
   useEffect(() => {
     localStorage.setItem("expenses", JSON.stringify(expenses));
   }, [expenses]);
 
+  // add
   const addExpense = () => {
     if (
       newExpenseName.trim() &&
@@ -66,7 +66,7 @@ export default function ExpenseTracker() {
     }
   };
 
-
+  // edit
   const updateExpense = (id, newName) => {
     setExpenses(
       expenses.map((expense) =>
@@ -75,51 +75,15 @@ export default function ExpenseTracker() {
     );
   };
 
-
+  // delete
   const deleteExpense = (id) => {
     setExpenses(expenses.filter((expense) => expense.id !== id));
   };
 
+  // enter key for adding
   const handleKeyPress = (e) => {
     if (e.key === "Enter") addExpense();
   };
-
-  // const addExpense = () => {
-  //   if (
-  //     newExpenseName.trim() &&
-  //     newExpenseAmount &&
-  //     parseFloat(newExpenseAmount) > 0
-  //   ) {
-  //     setIsAdding(true);
-  //     setTimeout(() => {
-  //       const newExpense = {
-  //         id: Date.now(),
-  //         name: newExpenseName.trim(),
-  //         amount: parseFloat(newExpenseAmount),
-  //       };
-  //       const updatedExpenses = [...expenses, newExpense];
-  //       setExpenses(updatedExpenses);
-  //       localStorage.setItem("expenses", JSON.stringify(updatedExpenses));
-  //       setNewExpenseName("");
-  //       setNewExpenseAmount("");
-  //       setIsAdding(false);
-  //     }, 300);
-  //   }
-  // };
-
-  // const updateExpense = (id, newName) => {
-  //   const updatedExpenses = expenses.map((expense) =>
-  //     expense.id === id ? { ...expense, name: newName } : expense
-  //   );
-  //   setExpenses(updatedExpenses);
-  //   localStorage.setItem("expenses", JSON.stringify(updatedExpenses));
-  // };
-  
-  // const deleteExpense = (id) => {
-  //   const updatedExpenses = expenses.filter((expense) => expense.id !== id);
-  //   setExpenses(updatedExpenses);
-  //   localStorage.setItem("expenses", JSON.stringify(updatedExpenses));
-  // };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
