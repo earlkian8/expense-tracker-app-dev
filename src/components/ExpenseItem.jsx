@@ -1,11 +1,45 @@
+import { useState } from "react";
 import { Trash2 } from "lucide-react";
 
-export default function ExpenseItem({ expense, onDelete }) {
+export default function ExpenseItem({ expense, onDelete, onUpdate }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedName, setEditedName] = useState(expense.name);
+
+  const handleSave = () => {
+    if (editedName.trim() && editedName !== expense.name) {
+      onUpdate(expense.id, editedName.trim());
+    }
+    setIsEditing(false);
+  };
+
   return (
     <div className="group bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all duration-200 hover:border-gray-300 m-2">
       <div className="flex items-center justify-between">
         <div className="flex-1">
-          <h3 className="font-medium text-gray-900 text-lg">{expense.name}</h3>
+          {isEditing ? (
+            <input
+              type="text"
+              className="border-b border-gray-300 focus:outline-none text-lg font-medium text-gray-900"
+              value={editedName}
+              autoFocus
+              onChange={(e) => setEditedName(e.target.value)}
+              onBlur={handleSave}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSave();
+                if (e.key === "Escape") {
+                  setEditedName(expense.name);
+                  setIsEditing(false);
+                }
+              }}
+            />
+          ) : (
+            <h3
+              className="font-medium text-gray-900 text-lg cursor-pointer"
+              onClick={() => setIsEditing(true)}
+            >
+              {expense.name}
+            </h3>
+          )}
           <p className="text-gray-500 text-sm mt-1">#{expense.id}</p>
         </div>
         <div className="flex items-center gap-4">

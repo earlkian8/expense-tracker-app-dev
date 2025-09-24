@@ -50,6 +50,15 @@ export default function ExpenseTracker() {
     }
   };
 
+  const updateExpense = (id, newName) => {
+    setExpenses(
+      expenses.map((expense) =>
+        expense.id === id ? { ...expense, name: newName } : expense
+      )
+    );
+  };
+
+
   const deleteExpense = (id) => {
     setExpenses(expenses.filter((expense) => expense.id !== id));
   };
@@ -79,7 +88,7 @@ export default function ExpenseTracker() {
           isAdding={isAdding}
           handleKeyPress={handleKeyPress}
         />
-        <ExpenseList expenses={expenses} onDelete={deleteExpense} />
+        <ExpenseList expenses={expenses} onDelete={deleteExpense} onUpdate={updateExpense} />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import ExpenseItem from "./ExpenseItem";
 import { PhilippinePeso } from "lucide-react";
 
-export default function ExpenseList({ expenses, onDelete }) {
+export default function ExpenseList({ expenses, onDelete, onUpdate }) {
   return (
     <div className="w-full">
       <h3 className="text-lg font-medium text-gray-900 mb-4">Expenses</h3>
@@ -16,13 +16,13 @@ export default function ExpenseList({ expenses, onDelete }) {
         </div>
       ) : (
         <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
-          {/* Scrollable container */}
           <div className="max-h-80 overflow-y-auto divide-y divide-gray-100">
             {expenses.map((expense) => (
               <ExpenseItem
                 key={expense.id}
                 expense={expense}
                 onDelete={onDelete}
+                onUpdate={onUpdate}
               />
             ))}
           </div>
