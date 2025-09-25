@@ -1,4 +1,4 @@
-import { TrendingUp, Target, Calendar, AlertCircle, DollarSign } from "lucide-react";
+import { TrendingUp, Target, Calendar, AlertCircle, DollarSign, PhilippinePeso } from "lucide-react";
 
 export default function ExpenseSummary({ expenses, total, limit = 5000 }) {
   const budgetPercentage = (total / limit) * 100;
@@ -97,7 +97,7 @@ export default function ExpenseSummary({ expenses, total, limit = 5000 }) {
         <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <div className="p-2 bg-green-50 rounded-lg">
-              <DollarSign className="w-5 h-5 text-green-600" />
+              <PhilippinePeso className="w-5 h-5 text-green-600" />
             </div>
             <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
               Budget
