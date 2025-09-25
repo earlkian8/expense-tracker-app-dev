@@ -75,10 +75,12 @@ export default function ExpenseTracker() {
   };
 
   // edit
-  const updateExpense = (id, newName) => {
+  const updateExpense = (id, newName, newAmount) => {
     setExpenses(
       expenses.map((expense) =>
-        expense.id === id ? { ...expense, name: newName } : expense
+        expense.id === id 
+          ? { ...expense, name: newName, amount: parseFloat(newAmount) } 
+          : expense
       )
     );
   };
