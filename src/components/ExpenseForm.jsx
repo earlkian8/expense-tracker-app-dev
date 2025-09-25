@@ -59,7 +59,7 @@ export default function ExpenseForm({
     const value = e.target.value;
 
     if (value === "") {
-      setBudgetLimit(""); // keep it empty for UI
+      setBudgetLimit("");
     } else if (!isNaN(value) && Number(value) >= 0) {
       setBudgetLimit(Number(value));
     }
