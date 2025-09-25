@@ -57,10 +57,15 @@ export default function ExpenseForm({
   // limit change
   const handleLimitChange = (e) => {
     const value = e.target.value;
-    if (!isNaN(value) && value > 0) {
+
+    if (value === "") {
+      setBudgetLimit(""); // keep it empty for UI
+    } else if (!isNaN(value) && Number(value) >= 0) {
       setBudgetLimit(Number(value));
     }
   };
+
+
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
